@@ -143,13 +143,25 @@ function setup (cb) {
             stdio: ['pipe', 'pipe', 'pipe']
           }
         )
+        var pidFound = false
         d.stderr.on('data', childFinder)
+        d.stderr.on('end', function () {
+          if (!pidFound) {
+            cb('error starting git server')
+          }
+        })
 
         function childFinder (c) {
           var cpid = c.toString().match(/^\[(\d+)\]/)
           if (cpid[1]) {
+            pidFound = true
             this.removeListener('data', childFinder)
+            this.addListener('data', function (c) {
+              console.warn('got more child data: ', c.toString())
+            })
             cb(null, [d, cpid[1]])
+          } else {
+            console.warn('unexpected output from child: ', c.toString())
           }
         }
       }
