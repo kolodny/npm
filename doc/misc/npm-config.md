@@ -132,6 +132,13 @@ even for `GET` requests.
 When "dev" or "development" and running local `npm shrinkwrap`,
 `npm outdated`, or `npm update`, is an alias for `--dev`.
 
+### autocomplete
+
+* Default: `"https://ac.cnstrc.com/autocomplete/%s?autocomplete_key=2BhWUxtsm80gVBQ1jtTW"`
+* Type: String
+
+The url format string to use for command line autocompletion
+
 ### bin-links
 
 * Default: `true`
